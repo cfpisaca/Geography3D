@@ -233,6 +233,7 @@ GameObject:
   - component: {fileID: 324277090}
   - component: {fileID: 324277089}
   - component: {fileID: 324277093}
+  - component: {fileID: 324277094}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -338,6 +339,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4909c48a7dc2943248d5b50d70187d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &324277094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324277088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e685d69f6a94a1db1ca280fd31415d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadGeoData: {fileID: 856308096}
+  globeRadius: 1
+  lineMaterial: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,6 +448,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: 0, z: 0}
+--- !u!1 &856308093
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 856308095}
+  - component: {fileID: 856308096}
+  m_Layer: 0
+  m_Name: Map
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &856308095
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 856308093}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &856308096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 856308093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21a0ed308a71a46369e4493c5dd0d4c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  geoJsonFile: {fileID: 4900000, guid: c587deff13e4e40cd9321ac9fe1a1541, type: 3}
 --- !u!1 &877422140
 GameObject:
   m_ObjectHideFlags: 0
@@ -761,4 +822,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 705507995}
   - {fileID: 324277092}
+  - {fileID: 856308095}
   - {fileID: 1240826125}
