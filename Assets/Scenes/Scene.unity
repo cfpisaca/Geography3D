@@ -975,8 +975,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loadGeoData: {fileID: 401032797}
   globeRadius: 1
-  lineMaterial: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
-  countryMaterial: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  lineMaterial: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  countryMaterial: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!114 &1892317124
 MonoBehaviour:
   m_ObjectHideFlags: 0

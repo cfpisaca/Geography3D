@@ -26,75 +26,84 @@ public class SphereMapper : MonoBehaviour
         {
             GameObject countryObj = new GameObject(feature.properties.ADMIN);
             countryObj.transform.SetParent(transform, false);
-            DrawCountryBorders(countryObj, feature.geometry);
+            FillPolygon(countryObj.transform, feature.geometry, RandomColor()); // Fill the country with a random color
             CreateMeshCollider(countryObj);
         }
     }
 
-    private void DrawCountryBorders(GameObject countryObj, Geometry geometry)
+    private void FillPolygon(Transform parent, Geometry geometry, Color color)
     {
-        if (geometry == null || countryObj == null)
+        if (geometry == null)
         {
-            Debug.LogError("Invalid inputs for DrawCountryBorders.");
+            Debug.LogError("Invalid geometry for FillPolygon.");
             return;
         }
 
-        if (geometry.type == "MultiPolygon" || geometry.type == "Polygon")
+        if (geometry.type == "Polygon")
+        {
+            FillSinglePolygon(parent, geometry.coordinates[0], color);
+        }
+        else if (geometry.type == "MultiPolygon")
         {
             foreach (var polygon in geometry.coordinates)
             {
-                foreach (var linearRing in polygon)
-                {
-                    List<Vector3> vertices = new List<Vector3>();
-
-                    foreach (var vertex in linearRing)
-                    {
-                        Vector3 vertexPos = LatLonToSphere(vertex[1], vertex[0], globeRadius);
-                        vertices.Add(vertexPos);
-                    }
-
-                    DrawPolygon(countryObj.transform, vertices);
-                }
+                FillSinglePolygon(parent, polygon, color);
             }
         }
         else
         {
-            Debug.LogWarning("Unsupported geometry type for borders.");
+            Debug.LogWarning("Unsupported geometry type for filling: " + geometry.type);
         }
     }
 
-    private void DrawPolygon(Transform parent, List<Vector3> vertices)
+    private void FillSinglePolygon(Transform parent, float[][][] polygon, Color color)
     {
-        if (vertices.Count < 3)
+        foreach (var linearRing in polygon)
         {
-            Debug.LogWarning("Cannot draw a polygon with less than 3 vertices.");
-            return;
+            List<Vector3> vertices = new List<Vector3>();
+
+            foreach (var vertex in linearRing)
+            {
+                Vector3 vertexPos = LatLonToSphere((float)vertex[1], (float)vertex[0], globeRadius);
+                vertices.Add(vertexPos);
+            }
+
+            GameObject polygonObj = new GameObject("FilledPolygon");
+            polygonObj.transform.SetParent(parent, false);
+
+            MeshRenderer meshRenderer = polygonObj.AddComponent<MeshRenderer>();
+            meshRenderer.material = new Material(countryMaterial);
+            meshRenderer.material.color = color;
+
+            MeshFilter meshFilter = polygonObj.AddComponent<MeshFilter>();
+            meshFilter.mesh = CreateFilledMesh(vertices);
         }
-
-        GameObject polygonObj = new GameObject("Polygon");
-        polygonObj.transform.SetParent(parent, false);
-
-        MeshRenderer meshRenderer = polygonObj.AddComponent<MeshRenderer>();
-        meshRenderer.material = lineMaterial;
-
-        MeshFilter meshFilter = polygonObj.AddComponent<MeshFilter>();
-        meshFilter.mesh = CreateMesh(vertices);
     }
 
-    private Mesh CreateMesh(List<Vector3> vertices)
+    private Mesh CreateFilledMesh(List<Vector3> vertices)
     {
-        List<Vector2> vertices2D = new List<Vector2>();
+        List<Vector3> filledVertices = new List<Vector3>();
+        List<int> triangles = new List<int>();
+
+        filledVertices.AddRange(vertices);
+        Vector3 center = Vector3.zero;
         foreach (Vector3 vertex in vertices)
         {
-            vertices2D.Add(new Vector2(vertex.x, vertex.z)); // Project 3D vertices onto XZ plane
+            center += vertex;
+        }
+        center /= vertices.Count;
+        filledVertices.Add(center);
+
+        for (int i = 0; i < vertices.Count; i++)
+        {
+            triangles.Add(filledVertices.Count - 1);
+            triangles.Add(i);
+            triangles.Add((i + 1) % vertices.Count);
         }
 
-        Triangulator tr = new Triangulator(vertices2D.ToArray());
-        int[] triangles = tr.Triangulate();
-
         Mesh mesh = new Mesh();
-        mesh.vertices = vertices.ToArray();
-        mesh.triangles = triangles;
+        mesh.vertices = filledVertices.ToArray();
+        mesh.triangles = triangles.ToArray();
         mesh.RecalculateNormals();
 
         return mesh;
@@ -118,13 +127,6 @@ public class SphereMapper : MonoBehaviour
 
         MeshCollider meshCollider = countryObj.AddComponent<MeshCollider>();
         meshCollider.sharedMesh = combinedMesh;
-
-        // Optional: Disable MeshRenderer of child objects if needed
-        Renderer[] renderers = countryObj.GetComponentsInChildren<Renderer>();
-        foreach (Renderer renderer in renderers)
-        {
-            renderer.enabled = false;
-        }
     }
 
     private Vector3 LatLonToSphere(float lat, float lon, float radius)
@@ -135,6 +137,11 @@ public class SphereMapper : MonoBehaviour
         float y = radius * Mathf.Sin(lat);
         float z = radius * Mathf.Cos(lat) * Mathf.Sin(lon);
         return new Vector3(x, y, z);
+    }
+
+    private Color RandomColor()
+    {
+        return new Color(Random.value, Random.value, Random.value);
     }
 }
 
@@ -258,3 +265,4 @@ public class Triangulator
         return ((aCROSSbp >= 0.0f) && (bCROSScp >= 0.0f) && (cCROSSap >= 0.0f));
     }
 }
+
