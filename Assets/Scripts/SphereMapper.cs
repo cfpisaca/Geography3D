@@ -29,14 +29,21 @@ public class SphereMapper: MonoBehaviour
         }
     }
 
-    private void DrawCountryBorders(GameObject countryObj, Geometry geometry)
+   private void DrawCountryBorders(GameObject countryObj, Geometry geometry)
     {
-        if (geometry.type == "MultiPolygon")
+        if (geometry == null || countryObj == null)
+        {
+            Debug.LogError("Invalid inputs for DrawCountryBorders.");
+            return;
+        }
+
+        if (geometry.type == "MultiPolygon" || geometry.type == "Polygon")
         {
             foreach (var polygon in geometry.coordinates)
             {
                 GameObject polygonObj = new GameObject("Polygon");
                 polygonObj.transform.SetParent(countryObj.transform, false);
+
                 LineRenderer lineRenderer = polygonObj.AddComponent<LineRenderer>();
                 lineRenderer.material = lineMaterial;
                 lineRenderer.startWidth = 0.1f;
@@ -51,7 +58,8 @@ public class SphereMapper: MonoBehaviour
                     {
                         linePoints.Add(LatLonToSphere(linearRing[i][1], linearRing[i][0], globeRadius));
                     }
-                    
+
+                    // Ensure the polygon is closed by connecting the last point to the first.
                     if (linearRing.Length > 0)
                     {
                         linePoints.Add(LatLonToSphere(linearRing[0][1], linearRing[0][0], globeRadius));
@@ -62,7 +70,12 @@ public class SphereMapper: MonoBehaviour
                 lineRenderer.SetPositions(linePoints.ToArray());
             }
         }
+        else
+        {
+            Debug.LogWarning("Unsupported geometry type for borders.");
+        }
     }
+
 
 
     private Vector3 LatLonToSphere(float lat, float lon, float radius)

@@ -232,6 +232,7 @@ GameObject:
   - component: {fileID: 324277091}
   - component: {fileID: 324277090}
   - component: {fileID: 324277089}
+  - component: {fileID: 324277095}
   - component: {fileID: 324277093}
   - component: {fileID: 324277094}
   m_Layer: 0
@@ -336,9 +337,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 324277088}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4909c48a7dc2943248d5b50d70187d8f, type: 3}
+  m_Script: {fileID: 11500000, guid: 26e685d69f6a94a1db1ca280fd31415d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadGeoData: {fileID: 856308096}
+  globeRadius: 1
+  lineMaterial: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!114 &324277094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,12 +352,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 324277088}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26e685d69f6a94a1db1ca280fd31415d, type: 3}
+  m_Script: {fileID: 11500000, guid: e5355f15c28fa4f6fb532b5b9ae37f1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   loadGeoData: {fileID: 856308096}
-  globeRadius: 1
-  lineMaterial: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  globeRadius: 2
+  countryMaterial: {fileID: 2100000, guid: bde8df80e7b374a0387f199851c81a75, type: 2}
+--- !u!114 &324277095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 324277088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4909c48a7dc2943248d5b50d70187d8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
