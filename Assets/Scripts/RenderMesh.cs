@@ -11,7 +11,7 @@ public class RenderMesh : MonoBehaviour
     }
 
     void CreateMesh() {
-        MeshData[] faces = GenerateFaces(25); // RESOLUTION
+        MeshData[] faces = GenerateFaces(100); // RESOLUTION
         CombineMeshData(faces);
     }
 

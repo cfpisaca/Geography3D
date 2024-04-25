@@ -22,28 +22,31 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0)) 
+        if (Input.GetKeyDown(KeyCode.R))
         {
-            if (currentIndex < countries.Length) 
+            ResetGame();
+        }
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (currentIndex < countries.Length)
             {
-                if (!countries[currentIndex].IsGuessedCorrectly()) 
+                if (!countries[currentIndex].IsGuessedCorrectly())
                     return;
 
                 currentIndex++;
 
                 if (currentIndex < countries.Length)
                 {
-                    DisplayCountryName(currentIndex); 
+                    DisplayCountryName(currentIndex);
                 }
                 else
                 {
-                    Debug.Log("Congratulations! You guessed all countries.");
-                    countryNameText.text = "Congratulations!\nYou guessed all countries.";
+                    Debug.Log("Congratulations! You guessed all countries. Press R to reset.");
+                    countryNameText.text = "Congratulations!\nYou guessed all countries.\nPress R to reset.";
                 }
             }
         }
     }
-
 
     private void DisplayCountryName(int index)
     {
@@ -65,17 +68,18 @@ public class GameManager : MonoBehaviour
 
     public void OnCountryGuessedCorrectly()
     {
-        currentIndex++; 
+        currentIndex++;
 
         if (currentIndex < countries.Length)
         {
-            DisplayCountryName(currentIndex); 
+            DisplayCountryName(currentIndex);
         }
         else
         {
-            if (AllCountriesGuessedCorrectly()) {
-                Debug.Log("Congratulations! You guessed all countries.");
-                countryNameText.text = "Congratulations!\nYou guessed all countries.";
+            if (AllCountriesGuessedCorrectly())
+            {
+                Debug.Log("Congratulations! You guessed all countries. Press R to reset.");
+                countryNameText.text = "Congratulations!\nYou guessed all countries.\nPress R to reset.";
             }
         }
 
@@ -94,8 +98,6 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-
-
     private void UpdateDisplayedCountryName()
     {
         if (currentIndex >= 0 && currentIndex < loadGeoData.LoadGeodata.features.Length)
@@ -104,4 +106,19 @@ public class GameManager : MonoBehaviour
             countryNameText.text = countryName;
         }
     }
+
+    public void ResetGame()
+    {
+        currentIndex = 0;
+
+        CountryInteract[] allCountryInteracts = FindObjectsOfType<CountryInteract>();
+
+        foreach (CountryInteract country in allCountryInteracts)
+        {
+            country.ResetCountry();
+        }
+
+        DisplayCountryName(currentIndex);
+    }
+
 }

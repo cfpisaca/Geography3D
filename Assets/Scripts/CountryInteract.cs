@@ -8,9 +8,9 @@ public class CountryInteract : MonoBehaviour
     private Color wrongGuessColor = Color.red;
     private bool guessedCorrectly = false;
     private bool interactable = true;
-    
+
     private Collider countryCollider;
-    public string countryName { get; set; } 
+    public string countryName { get; set; }
 
     void Start()
     {
@@ -34,13 +34,13 @@ public class CountryInteract : MonoBehaviour
     {
         if (interactable && Input.GetMouseButtonDown(0))
         {
-            GameManager gameManager = FindObjectOfType<GameManager>(); 
+            GameManager gameManager = FindObjectOfType<GameManager>();
             if (gameManager != null)
             {
-                string displayedCountryName = gameManager.GetDisplayedCountryName(); 
-                if (displayedCountryName != null && displayedCountryName == countryName) 
+                string displayedCountryName = gameManager.GetDisplayedCountryName();
+                if (displayedCountryName != null && displayedCountryName == countryName)
                 {
-                    SetGuessedCorrectly(); 
+                    SetGuessedCorrectly();
                 }
                 else
                 {
@@ -49,7 +49,6 @@ public class CountryInteract : MonoBehaviour
             }
         }
     }
-
 
     private void SetOriginalColor()
     {
@@ -86,7 +85,6 @@ public class CountryInteract : MonoBehaviour
         }
     }
 
-    
     public bool IsGuessedCorrectly()
     {
         return guessedCorrectly;
@@ -95,5 +93,12 @@ public class CountryInteract : MonoBehaviour
     public void SetInteractable(bool value)
     {
         interactable = value;
+    }
+
+    public void ResetCountry()
+    {
+        guessedCorrectly = false;
+        interactable = true;
+        ChangeColor(originalColor);
     }
 }

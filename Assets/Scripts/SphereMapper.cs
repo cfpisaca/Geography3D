@@ -6,8 +6,8 @@ public class SphereMapper : MonoBehaviour
     public LoadGeoData loadGeoData;
     public float globeRadius = 10f;
     public Material lineMaterial;
-    public float borderThickness = 0.3f; 
-    public float innerBorderScale = 0.95f; 
+    public float borderThickness = 0.5f;
+    public float innerBorderScale = 0.99f;
 
     private void Start()
     {
@@ -101,7 +101,7 @@ public class SphereMapper : MonoBehaviour
                         vertices.Add(LatLonToSphere(linearRing[j][1], linearRing[j][0], globeRadius));
                     }
 
-                    if (i == 0) 
+                    if (i == 0)
                     {
                         for (int j = 2; j < linearRing.Length; j++)
                         {
@@ -112,14 +112,14 @@ public class SphereMapper : MonoBehaviour
                     }
                 }
 
-                startVertexIndex = vertices.Count; 
+                startVertexIndex = vertices.Count;
             }
         }
 
         Mesh mesh = new Mesh();
         mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();
-        mesh.RecalculateNormals(); 
+        mesh.RecalculateNormals();
         meshFilter.mesh = mesh;
         return mesh;
     }

@@ -4,8 +4,8 @@
 // {
 //     public Transform target; 
 //     public float distance = 200.0f; 
-//     public float xSpeed = 15.0f;
-//     public float ySpeed = 15.0f;
+//     public float xSpeed = 55.0f;
+//     public float ySpeed = 55.0f;
 
 //     private float x = 0.0f;
 //     private float y = 0.0f;
