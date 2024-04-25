@@ -34,6 +34,7 @@ public class SphereMapper : MonoBehaviour
             DrawCountryBorders(countryObj, feature.geometry, globeRadius * innerBorderScale, borderThickness * 1.5f, lineMaterial, true);
 
             CountryInteract countryInteract = countryObj.AddComponent<CountryInteract>();
+            countryInteract.countryName = feature.properties.ADMIN;
         }
     }
 

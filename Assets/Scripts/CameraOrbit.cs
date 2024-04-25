@@ -57,8 +57,8 @@ public class CameraOrbit : MonoBehaviour
 {
     public Transform target; 
     public float distance = 200.0f; 
-    public float xSpeed = 15.0f;
-    public float ySpeed = 15.0f;
+    public float xSpeed = 35.0f;
+    public float ySpeed = 35.0f;
 
     private float x = 0.0f;
     private float y = 0.0f;
@@ -76,7 +76,6 @@ public class CameraOrbit : MonoBehaviour
     {
         if (target)
         {
-            // Check for keyboard input
             float moveHorizontal = Input.GetAxis("Horizontal");
             float moveVertical = Input.GetAxis("Vertical");
 

@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 705507994}
+  m_Sun: {fileID: 0}
   m_IndirectSpecularColor: {r: 0.1801816, g: 0.22558749, b: 0.30677715, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
@@ -998,6 +998,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   countryNameText: {fileID: 504091416}
   loadGeoData: {fileID: 401032797}
+  countries: []
 --- !u!114 &1798532832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1012,8 +1013,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1983343686}
   distance: 200
-  xSpeed: 15
-  ySpeed: 15
+  xSpeed: 50
+  ySpeed: 50
 --- !u!1 &1813678441
 GameObject:
   m_ObjectHideFlags: 0

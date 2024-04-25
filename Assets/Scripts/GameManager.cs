@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public CountryInteract[] countries;
     private int currentIndex = 0;
 
-    void Start()
+    private void Start()
     {
         if (loadGeoData != null && loadGeoData.LoadGeodata != null)
         {
@@ -20,29 +20,87 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0)) 
         {
-            if (currentIndex < countries.Length && !countries[currentIndex].IsGuessedCorrectly())
+            if (currentIndex < countries.Length) 
             {
-                countries[currentIndex].SetInteractable(false);
-                countries[currentIndex].SetGuessedCorrectly();
+                if (!countries[currentIndex].IsGuessedCorrectly()) 
+                    return;
+
                 currentIndex++;
 
                 if (currentIndex < countries.Length)
-                    DisplayCountryName(currentIndex);
+                {
+                    DisplayCountryName(currentIndex); 
+                }
                 else
+                {
                     Debug.Log("Congratulations! You guessed all countries.");
+                    countryNameText.text = "Congratulations!\nYou guessed all countries.";
+                }
             }
         }
     }
 
-    void DisplayCountryName(int index)
+
+    private void DisplayCountryName(int index)
     {
         if (index >= 0 && index < loadGeoData.LoadGeodata.features.Length)
         {
             string countryName = loadGeoData.LoadGeodata.features[index].properties.ADMIN;
+            countryNameText.text = countryName;
+        }
+    }
+
+    public string GetDisplayedCountryName()
+    {
+        if (currentIndex >= 0 && currentIndex < loadGeoData.LoadGeodata.features.Length)
+        {
+            return loadGeoData.LoadGeodata.features[currentIndex].properties.ADMIN;
+        }
+        return null;
+    }
+
+    public void OnCountryGuessedCorrectly()
+    {
+        currentIndex++; 
+
+        if (currentIndex < countries.Length)
+        {
+            DisplayCountryName(currentIndex); 
+        }
+        else
+        {
+            if (AllCountriesGuessedCorrectly()) {
+                Debug.Log("Congratulations! You guessed all countries.");
+                countryNameText.text = "Congratulations!\nYou guessed all countries.";
+            }
+        }
+
+        UpdateDisplayedCountryName();
+    }
+
+    private bool AllCountriesGuessedCorrectly()
+    {
+        foreach (CountryInteract country in countries)
+        {
+            if (!country.IsGuessedCorrectly())
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
+    private void UpdateDisplayedCountryName()
+    {
+        if (currentIndex >= 0 && currentIndex < loadGeoData.LoadGeodata.features.Length)
+        {
+            string countryName = loadGeoData.LoadGeodata.features[currentIndex].properties.ADMIN;
             countryNameText.text = countryName;
         }
     }
