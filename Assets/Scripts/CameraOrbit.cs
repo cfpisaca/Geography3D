@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class CameraOrbit : MonoBehaviour
 {
-    public Transform target; // Target to orbit around (the sphere)
-    public float distance = 120.0f; // Distance from the target
-    public float xSpeed = 5.0f;
-    public float ySpeed = 5.0f;
+    public Transform target; 
+    public float distance = 120.0f; 
+    public float xSpeed = 15.0f;
+    public float ySpeed = 15.0f;
 
     private float x = 0.0f;
     private float y = 0.0f;
@@ -16,7 +16,6 @@ public class CameraOrbit : MonoBehaviour
         x = angles.y;
         y = angles.x;
 
-        // Ensure the camera is correctly positioned at start:
         UpdatePosition();
     }
 
@@ -24,13 +23,9 @@ public class CameraOrbit : MonoBehaviour
     {
         if (target)
         {
-            // Replace mouse input with VR controller joystick input
-            // Left joystick horizontal for x-axis rotation
             x += OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).x * xSpeed * Time.deltaTime;
-            // Right joystick vertical for y-axis rotation
             y -= OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick).y * ySpeed * Time.deltaTime;
 
-            // Clamp the vertical angle to avoid flipping at the poles
             y = ClampAngle(y, -89f, 89f);
 
             UpdatePosition();
