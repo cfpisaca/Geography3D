@@ -6,10 +6,8 @@ public class SphereMapper : MonoBehaviour
     public LoadGeoData loadGeoData;
     public float globeRadius = 10f;
     public Material lineMaterial;
-    public float borderThickness = 0.2f;  // Thickness for the outer border
-    public float innerBorderScale = 0.99f; // Scale factor for inner border, slightly smaller
-
-    private GameObject lastHoveredObject;
+    public float borderThickness = 0.3f; 
+    public float innerBorderScale = 0.95f; 
 
     private void Start()
     {
@@ -34,6 +32,8 @@ public class SphereMapper : MonoBehaviour
             meshCollider.sharedMesh = GenerateCountryMesh(countryObj, feature.geometry);
             DrawCountryBorders(countryObj, feature.geometry, globeRadius, borderThickness, lineMaterial);
             DrawCountryBorders(countryObj, feature.geometry, globeRadius * innerBorderScale, borderThickness * 1.5f, lineMaterial, true);
+
+            CountryInteract countryInteract = countryObj.AddComponent<CountryInteract>();
         }
     }
 
@@ -61,7 +61,6 @@ public class SphereMapper : MonoBehaviour
                         linePoints.Add(LatLonToSphere(linearRing[i][1], linearRing[i][0], radius));
                     }
 
-                    // Ensure the polygon is closed by connecting the last point to the first.
                     if (linearRing.Length > 0)
                     {
                         linePoints.Add(LatLonToSphere(linearRing[0][1], linearRing[0][0], radius));
@@ -70,39 +69,13 @@ public class SphereMapper : MonoBehaviour
 
                 lineRenderer.positionCount = linePoints.Count;
                 lineRenderer.SetPositions(linePoints.ToArray());
-                lineRenderer.material.color = Color.white; // Default color
+
+                lineRenderer.material.color = Color.white;
             }
         }
         else
         {
             Debug.LogWarning("Unsupported geometry type for borders.");
-        }
-    }
-
-    public void HandleHover(GameObject hoveredObject)
-    {
-        if (lastHoveredObject != hoveredObject)
-        {
-            ResetLastHovered();
-            ChangeBorderColor(hoveredObject, Color.blue);
-            lastHoveredObject = hoveredObject;
-        }
-    }
-
-    private void ResetLastHovered()
-    {
-        if (lastHoveredObject != null)
-        {
-            ChangeBorderColor(lastHoveredObject, Color.white); // Reset color to default
-        }
-    }
-
-    private void ChangeBorderColor(GameObject countryObj, Color color)
-    {
-        LineRenderer[] lineRenderers = countryObj.GetComponentsInChildren<LineRenderer>();
-        foreach (var line in lineRenderers)
-        {
-            line.material.color = color;
         }
     }
 
@@ -127,7 +100,7 @@ public class SphereMapper : MonoBehaviour
                         vertices.Add(LatLonToSphere(linearRing[j][1], linearRing[j][0], globeRadius));
                     }
 
-                    if (i == 0) // Assuming the first ring is the outer boundary
+                    if (i == 0) 
                     {
                         for (int j = 2; j < linearRing.Length; j++)
                         {
@@ -138,14 +111,14 @@ public class SphereMapper : MonoBehaviour
                     }
                 }
 
-                startVertexIndex = vertices.Count; // Update start index for next polygon
+                startVertexIndex = vertices.Count; 
             }
         }
 
         Mesh mesh = new Mesh();
         mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();
-        mesh.RecalculateNormals(); // Helps with lighting
+        mesh.RecalculateNormals(); 
         meshFilter.mesh = mesh;
         return mesh;
     }
