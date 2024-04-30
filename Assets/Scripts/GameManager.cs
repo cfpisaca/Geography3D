@@ -22,11 +22,11 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (OVRInput.GetDown(OVRInput.Button.Three))
         {
             ResetGame();
         }
-        if (Input.GetMouseButtonDown(0))
+        if (OVRInput.GetDown(OVRInput.Button.One)) 
         {
             if (currentIndex < countries.Length)
             {
@@ -41,8 +41,8 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Congratulations! You guessed all countries. Press R to reset.");
-                    countryNameText.text = "Congratulations!\nYou guessed all countries.\nPress R to reset.";
+                    Debug.Log("Congratulations! You guessed all countries. Press X to reset.");
+                    countryNameText.text = "Congratulations!\nYou guessed all countries.\nPress X to reset.";
                 }
             }
         }
@@ -78,8 +78,8 @@ public class GameManager : MonoBehaviour
         {
             if (AllCountriesGuessedCorrectly())
             {
-                Debug.Log("Congratulations! You guessed all countries. Press R to reset.");
-                countryNameText.text = "Congratulations!\nYou guessed all countries.\nPress R to reset.";
+                Debug.Log("Congratulations! You guessed all countries. Press X to reset.");
+                countryNameText.text = "Congratulations!\nYou guessed all countries.\nPress X to reset.";
             }
         }
 
@@ -122,3 +122,4 @@ public class GameManager : MonoBehaviour
     }
 
 }
+

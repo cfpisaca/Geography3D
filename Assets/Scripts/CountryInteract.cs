@@ -18,33 +18,49 @@ public class CountryInteract : MonoBehaviour
         countryCollider = GetComponent<Collider>();
     }
 
-    void OnMouseEnter()
+    void Update() // Update is called once per frame
     {
-        if (!guessedCorrectly && interactable)
-            ChangeColor(hoverColor);
+        CheckGaze();
+        CheckInput();
     }
 
-    void OnMouseExit()
+    private void CheckGaze()
     {
-        if (!guessedCorrectly && interactable)
-            ChangeColor(originalColor);
-    }
+        RaycastHit hit;
+        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
 
-    void OnMouseDown()
-    {
-        if (interactable && Input.GetMouseButtonDown(0))
+        if (Physics.Raycast(ray, out hit) && hit.collider == countryCollider)
         {
-            GameManager gameManager = FindObjectOfType<GameManager>();
-            if (gameManager != null)
+            if (!guessedCorrectly && interactable)
+                ChangeColor(hoverColor);
+        }
+        else
+        {
+            if (!guessedCorrectly && interactable)
+                ChangeColor(originalColor);
+        }
+    }
+
+    private void CheckInput()
+    {
+        if (interactable && OVRInput.GetDown(OVRInput.Button.One))
+        {
+            RaycastHit hit;
+            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+            if (Physics.Raycast(ray, out hit) && hit.collider == countryCollider)
             {
-                string displayedCountryName = gameManager.GetDisplayedCountryName();
-                if (displayedCountryName != null && displayedCountryName == countryName)
+                GameManager gameManager = FindObjectOfType<GameManager>();
+                if (gameManager != null)
                 {
-                    SetGuessedCorrectly();
-                }
-                else
-                {
-                    ChangeColor(wrongGuessColor);
+                    string displayedCountryName = gameManager.GetDisplayedCountryName();
+                    if (displayedCountryName != null && displayedCountryName == countryName)
+                    {
+                        SetGuessedCorrectly();
+                    }
+                    else
+                    {
+                        ChangeColor(wrongGuessColor);
+                    }
                 }
             }
         }
@@ -102,3 +118,4 @@ public class CountryInteract : MonoBehaviour
         ChangeColor(originalColor);
     }
 }
+
