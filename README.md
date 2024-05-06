@@ -1,7 +1,5 @@
 # Geography3D
 
-A Meta Quest 2 Game. 
-
 ## Project Description
 Interactive 3D World Map of the countries of the world.
 
