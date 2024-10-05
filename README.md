@@ -17,6 +17,7 @@ Your objective is to guess every country correctly. If you guess correctly, the 
 - **Move globe:** Left and right joysticks
 
 ## References
+- All scripts in Assets/Scripts
 - https://github.com/SebLague/Geographical-Adventures/tree/main
 - https://github.com/johan/world.geo.json/blob/master/countries.geo.json
 - https://stackoverflow.com/questions/47658708/longitude-and-latitude-to-location-on-sphere-in-unity
